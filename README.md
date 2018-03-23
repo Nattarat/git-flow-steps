@@ -4,7 +4,7 @@
 * ขั้นตอนการนำ Project ที่อยู่บน Source control ต่างๆ (Server) เช่น GitHub, GitLab, Bitbucket ลงมาในเครื่องของเรา (Local) เพื่อทำการพัฒนา
 * ขั้นตอนที่นำเสนอจะอ้างอิงตัวอย่างโดยใช้ GitHub และใช้ Command line ในการจัดการ
 
-## Clone steps
+## Clone step
 1. ดาวน์โหลด Project จาก GitHub(Server) ลงมาที่ Local (เช่น D:\localhost)
     ```
     git clone https://github.com/Nattarat/gitstudy.git
@@ -67,4 +67,4 @@
 
     ![Git Step 7](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-7.jpg)
 
-## Add/Delete/Modify, Commit, Push steps
+## Add/Delete/Modify, Commit, Push step
