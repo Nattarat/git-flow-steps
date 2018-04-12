@@ -5,7 +5,7 @@
 * ขั้นตอนที่นำเสนอจะอ้างอิงตัวอย่างโดยใช้ GitHub และใช้ Command line ในการจัดการ
 
 ## 1. Download project from server to local
-* ดาวน์โหลด Project จาก GitHub(Server) ลงมาที่ My Computer(Local) (เช่น D:\localhost)
+* ดาวน์โหลด Project จาก GitHub(Server) ลงมาที่ My Computer(Local) เช่น D:\localhost
     ```
     git clone https://github.com/Nattarat/gitstudy.git
     ```
@@ -40,6 +40,29 @@
 
     ![Git Config Step 1](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-config-1.jpg)
 
+* เปิดการใช้งานการบันทึก Account(Email/Password) ลงที่ Global (default เป็น false) เพื่อไม่ต้องใส่ค่าทุกครั้งเวลาทำการ push
+```
+git config credential.helper store
+```
+* กรณีเปิดการใช้งานการบันทึก Account(Email/Password) เฉพาะโปรเจคหนึ่งๆ (Local)
+```
+git config --local credential.helper store
+```
+
+![Git Config Step 1](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-config-2.jpg)
+
+* ตัวอย่างการจำลองสถานการณ์
+```
+[First day]
+$ git config credential.helper store
+$ git push origin develop
+Username: <type your username>
+Password: <type your password>
+
+[Later day]
+$ git push origin develop
+```
+
 ## 3. Check how many branch in local repository
 * ตรวจสอบ Local repository ว่ามี Branch อะไรอยู่บ้าง
     ```
@@ -66,64 +89,29 @@
     ![Git Step 5](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-5.jpg)
 
 ## 4. Change branch for feature working
+
+### Branch introduction
 * การพัฒนาเว็บไซต์ เราจะไม่พัฒนาที่ Master branch โดยตรง เพราะ Branch นี้เราจะรักษาไว้ให้โค้ดที่ผ่านการ Test ผ่านและเตรียมไว้ใช้ Merge เข้า Production branch เท่านั้น
 * ดังนั้นการพัฒนาเว็บไซต์ เราจะทำการแตก Branch แยกออกมาจาก Master branch *** โดยจุดประสงค์และการตั้งชื่อของ Branch จะเป็นไปตาม Flow ที่ตกลงกันภายในทีม
-* โดยการพัฒนาเว็บไซต์ที่มีขนาดเล็ก - ใหญ่ จะมีลักษณะ Branch ที่ไม่ซับซ้อน ตัวอย่างเช่น
-```
-* master
-|\  \  \
-| |  |  |
-| |  |
-| * feature_1
-| |  |
-| |  |
-|/   * feature_2
-|    |
-* master + feature_1
-|    |
-|   /
-|  /
-| /
-* master + feature_1 + feature_2
-|
-|
-```
+* โดยการพัฒนาเว็บไซต์ที่มีขนาดเล็ก - ใหญ่ จะมีลักษณะ Branch ที่ไม่ซับซ้อน เช่น
+  - master: Branch หลักใช้สำหรับ Build ขึ้น Production
+  - develop: Branch ที่แตกออกมาจาก master ใช้สำหรับพัฒนาและทดสอบ Features ต่างๆ
+  - feature_1, feature_2: Branch ที่แตกออกมาจาก develop ใช้สำหรับพัฒนา Features ใหม่ๆ
 
+![Git Brabch 1](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-branch-1.jpg)
 
-* ขั้นตอนการบันทึก Account(Email/Password) เพื่อไม่ต้องใส่ทุกครั้งเมื่อ push
-  - credential.helper store คือ เปิดการใช้งานการบันทึก Account(Email/Password) ลงที่ Global หรือ Local git (default เป็น false)
-```
-$ git config credential.helper store
-$ git push http://example.com/repo.git
-Username: <type your username>
-Password: <type your password>
+* หมายเหตุ: บางโปรเจค master อาจจะไม่ได้ใช้ Build ขึ้น Production แต่จะใช้ในวัตุประสงค์
+  - Build ขึ้น Test server (ทดสอบกันใน Develop environment โดยใช้ข้อมูลจำลองไม่ใช่ของจริงจาก Production มีจุดประสงค์เพื่อใช้ทดสอบการทำงานของ Features ต่างๆ ที่ merge รวมเข้ามา)
+  - Build ขึ้น Staging server (ทดสอบกันใน Production environment โดยใช้ข้อมูลจริงจาก Production มีจุดประสงค์เพื่อใช้ทดสอบการทำงานของ Features ต่างๆ ที่ merge รวมเข้ามากับข้อมูลของ Production)
+  - Merge เข้า production branch เพื่อ Build ขึ้น Production server อีกทีหนึ่ง (หลังจากทดสอบที่ Test และ Staging server ผ่านแล้ว)
 
-[several days later]
-$ git push http://example.com/repo.git
-[your credentials are used automatically]
-```
+### Change branch
 
 
 
-* ดาวน์โหลด Branch ที่อยู่บน GitHub(Server) พร้อมทั้งเปลี่ยนไปทำงานที่ Branch ที่ดาวน์โหลดลงมา
-* git checkout -b tode คือ เปลี่ยนไปทำงานที่ Branch นั้นๆ
-* --track origin/tode คือ ตั้งค่าการ Add/Delete/Modify, Commit, Push ไปที่ Branch นั้นๆ
 
-    ```
-    git checkout -b tode --track origin/tode
-    ```
 
-    ![Git Step 6](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-6.jpg)
 
-7. ตรวจสอบ Branch ของ Local ที่มีอยู่และกำลังทำงานอยู่อีกครั้ง
-    * สีขาว คือ Branch ที่มีอยู่ใน Local แล้ว
-    * สีเขียว คือ Branch ที่มีอยู่ใน Local และเรากำลังทำงานอยู่
-    * สีแดง คือ Branch ที่ไม่มีอยู่ใน Local แต่มีอยู่บน GitHub(Server)
 
-    ```
-    git branch --all
-    ```
 
-    ![Git Step 7](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-7.jpg)
 
-## Add/Delete/Modify, Commit, Push step
