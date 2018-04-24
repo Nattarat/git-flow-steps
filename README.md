@@ -49,7 +49,7 @@ git config credential.helper store
 git config --local credential.helper store
 ```
 
-![Git Config Step 1](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-config-2.jpg)
+![Git Config Step 2](https://raw.githubusercontent.com/Nattarat/git-flow-steps/master/README-images/git-step-config-2.jpg)
 
 * ตัวอย่างการจำลองสถานการณ์
 ```
